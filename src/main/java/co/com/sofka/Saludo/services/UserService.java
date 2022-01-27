@@ -29,8 +29,8 @@ public class UserService {
 		return userRepository.getById(id);
 	}
 
-	public boolean findNameValidate(String name) {
-		return userRepository.findByNombre(name).isPresent();
+	public UserModel findNameValidate(String name) {
+		return userRepository.findByNombre(name);
 	}
 
 	public void deleteUser(UserModel userModel) {

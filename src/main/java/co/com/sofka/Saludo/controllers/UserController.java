@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,6 +19,7 @@ import co.com.sofka.Saludo.models.UserModel;
 import co.com.sofka.Saludo.services.UserService;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000" )
 @RequestMapping("/api/usuarios")
 public class UserController {
 
@@ -50,8 +52,14 @@ public class UserController {
 	}
 
 	@GetMapping(path = "/validateName")
-	public ResponseEntity<Boolean> validate(@RequestParam(value = "name") String name) {
-		return new ResponseEntity<Boolean>(userService.findNameValidate(name), HttpStatus.OK);
+	public ResponseEntity<UserModel> validate(@RequestParam(value = "name") String name) {
+		UserModel userModel=this.userService.findNameValidate(name);
+		if (userModel== null) {
+			throw new IllegalArgumentException("\"error message the field is null\"");
+		}else {
+			return ResponseEntity.ok(userService.findNameValidate(name));
+		}
+		
 	}
 
 	@DeleteMapping
@@ -61,7 +69,7 @@ public class UserController {
 			this.userService.deleteUser(userModel);
 			return new ResponseEntity<String>(HttpStatus.OK);
 		} else {
-			return new ResponseEntity<String>("User no found", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<String>("User not found", HttpStatus.NOT_FOUND);
 		}
 	}
 
