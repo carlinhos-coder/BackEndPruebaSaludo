@@ -19,7 +19,7 @@ import co.com.sofka.Saludo.models.UserModel;
 import co.com.sofka.Saludo.services.UserService;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000" )
+//@CrossOrigin(origins = "http://localhost:3000" )
 @RequestMapping("/api/usuarios")
 public class UserController {
 
